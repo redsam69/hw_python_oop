@@ -1,6 +1,7 @@
 import datetime as dt
 
-class Record:  
+class Record:
+
 
     def __init__(self, amount, comment, date=None):
             self.amount = amount
@@ -20,7 +21,7 @@ class Calculator:
         self.limit = limit
         self.records = []
         
-    def add_record(self, record):           
+    def add_record(self, record):
         self.records.append(record)
          
     def get_today_stats(self):
@@ -28,12 +29,12 @@ class Calculator:
         for i in self.records:
             if i.date == Calculator.day_now:   
                 amount_all += i.amount        
-        return amount_all 
+        return amount_all
         
     def get_week_stats(self):
-        amount_all = 0      
-        date_ago = Calculator.day_now - dt.timedelta(days=7)       
-        for i in self.records:         
+        amount_all = 0
+        date_ago = Calculator.day_now - dt.timedelta(days=7)     
+        for i in self.records:
             if i.date >= date_ago and i.date <= Calculator.day_now : 
                 amount_all += i.amount
         return amount_all 
@@ -41,9 +42,9 @@ class Calculator:
 
 class CaloriesCalculator(Calculator):
 
-    def get_calories_remained(self):      
+    def get_calories_remained(self):     
         rest = self.limit - self.get_today_stats()        
-        if rest > 0:     
+        if rest > 0:
             return (f'Сегодня можно съесть что-нибудь ещё, но с '
                     f'общей калорийностью не более {rest} кКал')
         else:
@@ -54,15 +55,15 @@ class CashCalculator(Calculator):
     EURO_RATE = 80.0
 
     def get_today_cash_remained(self, currency):     
-        curren = 'руб' 
+        curren = 'руб'
         rest = self.limit - self.get_today_stats()          
-        if rest != 0:     
+        if rest != 0:    
             if currency == 'eur':
                 rest = rest / CashCalculator.EURO_RATE
-                curren = 'Euro' 
+                curren = 'Euro'
             elif currency == 'usd':
                 rest = rest / CashCalculator.USD_RATE
-                curren = 'USD'  
+                curren = 'USD'
             if rest > 0:
                 return f'На сегодня осталось {rest:.2f} {curren}'
             else:
@@ -72,13 +73,3 @@ class CashCalculator(Calculator):
             return f'Денег нет, держись'
       
             
-cash_calculator = CashCalculator(1000)
-
-cash_calculator.add_record(Record(amount=500, comment='кофе', date='29.09.2021'))
-cash_calculator.add_record(Record(amount=100, comment='кофе' , date='25.09.2021'))
-cash_calculator.add_record(Record(amount=200, comment='кофе')) 
-#cash_calculator.add_record(Record(amount=0, comment='кофе')) 
-
-print(cash_calculator.get_today_cash_remained('rub'))
-
-print(cash_calculator.get_week_stats())
