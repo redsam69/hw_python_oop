@@ -1,17 +1,17 @@
 import datetime as dt
 
+
 class Record:
 
-
     def __init__(self, amount, comment, date=None):
-            self.amount = amount
-            self.comment = comment
-            if date is None:
-               self.date = dt.date.today()
-            else:
-                moment = dt.datetime.strptime(date, '%d.%m.%Y')
-                day = moment.date()
-                self.date = day
+        self.amount = amount
+        self.comment = comment
+        if date is None:
+            self.date = dt.date.today()
+        else:
+            moment = dt.datetime.strptime(date, '%d.%m.%Y')
+            day = moment.date()
+            self.date = day
 
 
 class Calculator:
@@ -50,6 +50,7 @@ class CaloriesCalculator(Calculator):
         else:
             return f'Хватит есть!'    
     
+
 class CashCalculator(Calculator):
     USD_RATE = 60.0
     EURO_RATE = 80.0
@@ -57,7 +58,7 @@ class CashCalculator(Calculator):
     def get_today_cash_remained(self, currency):     
         curren = 'руб'
         rest = self.limit - self.get_today_stats()          
-        if rest != 0:    
+        if rest != 0:
             if currency == 'eur':
                 rest = rest / CashCalculator.EURO_RATE
                 curren = 'Euro'
@@ -68,8 +69,7 @@ class CashCalculator(Calculator):
                 return f'На сегодня осталось {rest:.2f} {curren}'
             else:
                 rest_abs = abs(rest)
-                return f'Денег нет, держись: твой долг - {rest_abs:.2f} {curren}'
+                return (f'Денег нет, держись: твой долг - '
+                        f'{rest_abs:.2f} {curren}')
         else:
             return f'Денег нет, держись'
-      
-            
