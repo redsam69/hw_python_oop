@@ -16,7 +16,6 @@ class Record:
 
 
 class Calculator:
-    day_now = dt.date.today()
 
     def __init__(self, limit):
         self.limit = limit
@@ -31,7 +30,7 @@ class Calculator:
         return amount
 
     def get_week_stats(self):
-        date_ago = Calculator.day_now - dt.timedelta(days=7)
+        date_ago = dt.date.today() - dt.timedelta(days=7)
         amount = (sum(i.amount for i in self.records if i.date >= date_ago
                       and i.date <= dt.date.today()))
         return amount
